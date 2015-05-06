@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="categories_array">
+        <item>Other</item>
+        <item>Food</item>
+        <item>Clothing</item>
+        <item>Electronics</item>
+        <item>Gasoline</item>
+        <item>Vehicular Expenses</item>
+        <item>Housing Expenses</item>
+        <item>Tuition</item>
+    </string-array>
+
+    <string name="app_name">PersonalBanker</string>
+    <string name="title_section1">Entry</string>
+    <string name="title_section2">Spendings</string>
+    <string name="title_section3">Settings</string>
+    <string name="title_section4">Summary</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="listView_Header">Current Month</string>
+    <string name="title_activity_change_goal">changeGoal</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Change_Goal">Change Goal</string>
+    <string name="Cancel">Cancel</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_goal_progress">GoalProgress</string>
+
+</resources>

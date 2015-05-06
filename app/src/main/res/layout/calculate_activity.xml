@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/title_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ems="10"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
+        android:layout_alignBaseline="@+id/title"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignStart="@+id/amount_entry">
+
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/date_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="DD/MM/YYYY"
+        android:maxLength = "10"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/amount_entry"
+        android:layout_alignStart="@+id/amount_entry"
+        android:layout_marginTop="74dp" />
+
+    <EditText
+        android:id="@+id/amount_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_alignBaseline="@+id/amount"
+        android:layout_alignBottom="@+id/amount"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/amount"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="82dp"
+        android:text="Title" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:layout_marginTop="85dp"
+        android:layout_below="@+id/title_entry"
+        android:layout_toStartOf="@+id/amount_entry" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:layout_alignBaseline="@+id/date_entry"
+        android:layout_alignBottom="@+id/date_entry"
+        android:layout_alignStart="@+id/amount" />
+
+    <Button
+        android:id="@+id/add_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:text="Add Entry" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/categories_spinner"
+        android:layout_below="@+id/title_entry"
+        android:layout_alignStart="@+id/title_entry"
+        android:layout_alignEnd="@+id/title_entry"
+        android:padding="0dp"
+        android:textAlignment="viewStart"/>
+
+</RelativeLayout>
