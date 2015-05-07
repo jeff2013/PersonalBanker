@@ -120,7 +120,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
         Entry entryDelete = entries.get(position);
         String entryDeleteCategory = entryDelete.getCategory();
         //Toast.makeText(c, "before delete " + entryDeleteCategory + sharedPreferences.getInt(entryDeleteCategory, 0), Toast.LENGTH_SHORT).show();
-        editor.putInt(entryDeleteCategory, (int) (sharedPreferences.getInt(entryDeleteCategory, 0) - entryDelete.getAmount()));
+        editor.putFloat(entryDeleteCategory, (float)(sharedPreferences.getFloat(entryDeleteCategory, 0.0f) - entryDelete.getAmount()));
+        editor.apply();
+        editor.putInt("TotalSpendings", (int) (sharedPreferences.getInt("TotalSpendings", 0) - entryDelete.getAmount()));
         editor.apply();
         //Toast.makeText(c, "after delete " + entryDeleteCategory + sharedPreferences.getInt(entryDeleteCategory, 0), Toast.LENGTH_SHORT).show();
         sqlDAO.delete(entryDelete.getId());

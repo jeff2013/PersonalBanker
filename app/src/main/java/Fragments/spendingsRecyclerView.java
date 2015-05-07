@@ -41,7 +41,6 @@ public class spendingsRecyclerView extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         SharedPreferences sp = getActivity().getSharedPreferences("goal", Context.MODE_MULTI_PROCESS);
-        Toast.makeText(getActivity(), "RV " + sp.getInt("Food", 0), Toast.LENGTH_SHORT).show();
         View layout = inflater.inflate(R.layout.fragment_spendings_recycler_view, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(recyclerAdapter);

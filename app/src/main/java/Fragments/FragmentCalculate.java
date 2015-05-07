@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -61,6 +63,7 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private NotificationCompat.Builder notif;
 
     private TextWatcher dateTextWatcher = new TextWatcher() {
 
@@ -118,7 +121,7 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
             // TODO Auto-generated method stub
             String watcher = s.toString();
             if(watcher.length() >0){
-                amount = Double.parseDouble(watcher);
+                amount = Double.parseDouble(watcher);git
             }else{
                 amount = 0.0;
             }
@@ -215,12 +218,13 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
         d = new DateC(day,month,year);
 
         sqlDAO.createSpending(titleText, amount, category, day, month, year);
-        int prevVal = sharedPreferences.getInt(category, 0);
-        editor.putInt(category, prevVal + (int) amount).commit();
+        float prevVal = sharedPreferences.getFloat(category, 0.0f);
+        editor.putFloat(category, prevVal + (float)amount).commit();
         editor.putInt("TotalSpendings", sharedPreferences.getInt("TotalSpendings", 0) + (int) amount).apply();
-        float goal = sharedPreferences.getFloat("goalAmount", 0);
+        float goal = sharedPreferences.getFloat("goalAmount", 0.0f);
         if(sharedPreferences.getInt("TotalSpendings", 0) >= goal){
-            buildNotification((int) goal);
+            //buildNotification((int) goal);
+            buildNotificationWear();
         }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -251,6 +255,17 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
         // mId allows you to update the notification later on.
         mNotificationManager.notify(1, notification.build());
 
+    }
+
+    public void buildNotificationWear(){
+        notif = new NotificationCompat.Builder(getActivity().getApplication())
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("Personal Banker Wear")
+                .setContentText("My first Android Wear notification")
+                .extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true));
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity().getApplication());
+        int notificationId = 1;
+        notificationManager.notify(notificationId, notif.build());
     }
 
     //gets rid of the keyboard. No idea how to do the tapping rid of keyboard stuff

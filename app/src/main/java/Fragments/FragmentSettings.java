@@ -1,7 +1,9 @@
 package Fragments;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.example.jeff.personalbanker.changeGoal;
 
 import Adapter.SettingsAdapter;
 import Dialog.SettingsDialogFragment;
+import sqlite.SqlDAO;
 
 /**
  * Created by jeff on 2015-01-02.
@@ -55,7 +58,7 @@ public class FragmentSettings extends Fragment {
                         goalEdit();
                         break;
                     case 1:
-                        Toast.makeText(getActivity(), "Testing 1", Toast.LENGTH_SHORT).show();
+                        reset();
                         break;
                     case 2:
                         Toast.makeText(getActivity(), "Testing 2", Toast.LENGTH_SHORT).show();
@@ -67,6 +70,38 @@ public class FragmentSettings extends Fragment {
         listView.setAdapter(settingsAdapter);
         return view;
     }
+
+    public void reset(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you would like to erase all data on the application?")
+                .setTitle("Reset");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SqlDAO sqlDAO = new SqlDAO(getActivity());
+                sqlDAO.removeAllEntries();
+                resetSharedPreferences();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void resetSharedPreferences(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal", Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putFloat("goalAmount", 100.0f);
+        editor.apply();
+    }
+
 
     @Override
     public void onStart() {

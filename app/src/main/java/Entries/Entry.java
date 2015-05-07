@@ -19,9 +19,9 @@ public class Entry {
 
     }
 
-    public Entry(String category, int amount){
+    public Entry(String category, float amount){
         this.category = category;
-        this.amount = amount;
+        this.amount = (double)amount;
     }
 
     public int getId() {

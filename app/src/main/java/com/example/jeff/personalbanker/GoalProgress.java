@@ -52,11 +52,7 @@ public class GoalProgress extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Toast.makeText(getActivity(), "On CreateView", Toast.LENGTH_SHORT).show();
         View view = inflater.inflate(R.layout.activity_goal_progress, container, false);
-        //TextView testTV = (TextView) view.findViewById(R.id.textView12);
-        //SharedPreferences sp = getActivity().getSharedPreferences("goal", Context.MODE_PRIVATE)
-        //testTV.setText();
         highestSpendingTextView = (TextView) view.findViewById(R.id.textView_highestSpending);
         summaryStatsRV = (RecyclerView) view.findViewById(R.id.statsRecyclerView);
         summaryAdapter = new RecyclerAdapterStats(getActivity(), sqlDAO);
@@ -77,19 +73,19 @@ public class GoalProgress extends Fragment {
             percentageTextView.setText(String.valueOf(percentage) + "%");
         }
 
-        Entry otherEntry = new Entry("Other", sharedPreferences.getInt("Other", 0));
-        Entry foodEntry = new Entry("Food", sharedPreferences.getInt("Food", 0));
-        Entry clothingEntry = new Entry("Clothing", sharedPreferences.getInt("Clothing", 0));
-        Entry electronicsEntry = new Entry("Electronics", sharedPreferences.getInt("Electronics", 0));
+        Entry otherEntry = new Entry("Other", sharedPreferences.getFloat("Other", 0.0f));
+        Entry foodEntry = new Entry("Food", sharedPreferences.getFloat("Food", 0.0f));
+        Entry clothingEntry = new Entry("Clothing", sharedPreferences.getFloat("Clothing", 0.0f));
+        Entry electronicsEntry = new Entry("Electronics", sharedPreferences.getFloat("Electronics", 0.0f));
         highestSpendingTextView.setText(maxFunc(otherEntry, foodEntry, clothingEntry, electronicsEntry));
 
     }
 
     public String maxFunc(Entry e1, Entry e2, Entry e3, Entry e4){
-        int e1A = (int) e1.getAmount();
-        int e2A = (int) e2.getAmount();
-        int e3A = (int) e3.getAmount();
-        int e4A = (int) e4.getAmount();
+        float e1A = (float) e1.getAmount();
+        float e2A = (float) e2.getAmount();
+        float e3A = (float) e3.getAmount();
+        float e4A = (float) e4.getAmount();
 
         if(e1A>e2A && e1A>e3A && e1A >e4A) return e1.getCategory();
         if(e2A>e1A && e2A>e3A && e2A >e4A) return e2.getCategory();
@@ -99,7 +95,6 @@ public class GoalProgress extends Fragment {
     }
 
     public int calculateProgress(){
-       // SharedPreferences goalPreference = getActivity().getSharedPreferences("goal", Context.MODE_MULTI_PROCESS);
         float goal = Math.round(sharedPreferences.getFloat("goalAmount", 0.0f));
         if(goal == 0){
             updateText(-25);
@@ -116,7 +111,6 @@ public class GoalProgress extends Fragment {
                 return 75;
             } else {
                 overSpent = false;
-                //Toast.makeText(this, Integer.toString(spendings), Toast.LENGTH_SHORT).show();
                 float temp  = ((spendings*100)/goal);
                 updateText((int)temp);
                 return (int) Math.ceil(temp* 0.75);
@@ -132,9 +126,7 @@ public class GoalProgress extends Fragment {
 
     @Override
     public void onResume() {
-        Toast.makeText(getActivity(), "On Resume", Toast.LENGTH_SHORT).show();
         goalProgress.setProgress(calculateProgress());
-        //updateStats();
         super.onResume();
     }
 

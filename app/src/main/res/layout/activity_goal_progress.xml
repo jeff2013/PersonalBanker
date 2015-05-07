@@ -63,7 +63,7 @@
             android:id="@+id/textView_highestSpending"
             android:layout_alignBottom="@+id/progressBar"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp" />
+            android:layout_marginBottom="20dp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

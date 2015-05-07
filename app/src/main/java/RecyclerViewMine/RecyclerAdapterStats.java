@@ -81,7 +81,7 @@ public class RecyclerAdapterStats extends RecyclerView.Adapter<RecyclerAdapterSt
         holder.title.setText(category);
         holder.icon.setImageDrawable(c.getResources().getDrawable(icon));
         //Toast.makeText(c, "Holder percentage " + Integer.toString(sharedPreferences.getInt(category, 0)), Toast.LENGTH_SHORT).show();
-        holder.percentage.setText("$" + Integer.toString(sharedPreferences.getInt(category, 0)));
+        holder.percentage.setText("$" + Float.toString(sharedPreferences.getFloat(category, 0.0f)));
         /*
         SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {

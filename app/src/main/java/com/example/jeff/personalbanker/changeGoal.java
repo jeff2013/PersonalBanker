@@ -81,6 +81,7 @@ public class changeGoal extends ActionBarActivity {
         newGoal.addTextChangedListener(textWatcher);
         setContentView(v);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.show();
     }
 
