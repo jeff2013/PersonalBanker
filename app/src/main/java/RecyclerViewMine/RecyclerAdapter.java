@@ -116,6 +116,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
     }
 
     public void delete(int position){
+        if(entries.size() == 0) return;
         notifyItemRemoved(position);
         Entry entryDelete = entries.get(position);
         String entryDeleteCategory = entryDelete.getCategory();
@@ -127,7 +128,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
         //Toast.makeText(c, "after delete " + entryDeleteCategory + sharedPreferences.getInt(entryDeleteCategory, 0), Toast.LENGTH_SHORT).show();
         sqlDAO.delete(entryDelete.getId());
         entries = sqlDAO.getEntries();
-
     }
 
     @Override

@@ -7,6 +7,8 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -121,7 +123,7 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
             // TODO Auto-generated method stub
             String watcher = s.toString();
             if(watcher.length() >0){
-                amount = Double.parseDouble(watcher);git
+                amount = Double.parseDouble(watcher);
             }else{
                 amount = 0.0;
             }
@@ -252,24 +254,38 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
         notification.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
         mNotificationManager.notify(1, notification.build());
 
     }
 
     public void buildNotificationWear(){
+        Bitmap notificationLargeIconBitmap = BitmapFactory.decodeResource(
+                getActivity().getResources(),
+                R.drawable.exclamationmark);
+
         notif = new NotificationCompat.Builder(getActivity().getApplication())
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Personal Banker Wear")
-                .setContentText("My first Android Wear notification")
+                .setSmallIcon(R.drawable.ic_launcher3)
+                .setLargeIcon(notificationLargeIconBitmap)
+                .setContentTitle("Spending Goal Reached")
+                .setContentText("You have reached your spending goal!")
                 .extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true));
+
+        Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        notif.setContentIntent(resultPendingIntent);
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity().getApplication());
         int notificationId = 1;
         notificationManager.notify(notificationId, notif.build());
     }
 
-    //gets rid of the keyboard. No idea how to do the tapping rid of keyboard stuff
-    //!! hah racket shit.
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
         if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {

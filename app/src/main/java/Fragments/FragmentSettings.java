@@ -1,11 +1,13 @@
 package Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,7 +32,6 @@ import sqlite.SqlDAO;
  */
 public class FragmentSettings extends Fragment {
 
-    private TextView goalT;
     private ListView listView;
 
     @Override
@@ -41,14 +42,8 @@ public class FragmentSettings extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        //goalT = (TextView) view.findViewById(R.id.goalAmount);
-
-
         listView = (ListView) view.findViewById(R.id.settingsListView);
         SettingsAdapter settingsAdapter = new SettingsAdapter(getActivity());
-        View GoalView = settingsAdapter.getView(0, null, null);
-        View testView = (TextView) GoalView.findViewById(R.id.goalAmount);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,8 +55,8 @@ public class FragmentSettings extends Fragment {
                     case 1:
                         reset();
                         break;
-                    case 2:
-                        Toast.makeText(getActivity(), "Testing 2", Toast.LENGTH_SHORT).show();
+                    case 3:
+                        support();
                         break;
                 }
 
@@ -102,6 +97,18 @@ public class FragmentSettings extends Fragment {
         editor.apply();
     }
 
+    public void support(){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:" + "personalbanker7@gmail.com"));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Personal Banker Support");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send email using..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "No email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onStart() {
@@ -125,15 +132,13 @@ public class FragmentSettings extends Fragment {
         super.onPause();
     }
 
-    public void updateText(){
-
-    }
-
+    /*
     public void showDialog(){
         FragmentManager fm = getActivity().getFragmentManager();
         SettingsDialogFragment settingsDialogFragment = new SettingsDialogFragment().newInstance(goalT);
         settingsDialogFragment.show(fm, "Goal");
     }
+    */
 
     public void goalEdit(){
         Intent goal = new Intent(getActivity(), changeGoal.class);
