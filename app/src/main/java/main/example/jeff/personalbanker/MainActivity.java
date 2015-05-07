@@ -1,12 +1,7 @@
-package com.example.jeff.personalbanker;
+package main.example.jeff.personalbanker;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,12 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
 
 import Fragments.FragmentCalculate;
 import Fragments.FragmentSettings;
 import Fragments.FragmentSpendings;
-import Fragments.FragmentSpendingsListView;
 import Fragments.spendingsRecyclerView;
 
 

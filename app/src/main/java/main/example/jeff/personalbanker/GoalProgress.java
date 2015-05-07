@@ -1,27 +1,21 @@
-package com.example.jeff.personalbanker;
+package main.example.jeff.personalbanker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import Entries.Entry;
-import RecyclerViewMine.DividerItemDecoration;
-import RecyclerViewMine.RecyclerAdapter;
 import RecyclerViewMine.RecyclerAdapterStats;
 import sqlite.SqlDAO;
 

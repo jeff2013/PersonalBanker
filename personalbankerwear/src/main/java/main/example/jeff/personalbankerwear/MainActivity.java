@@ -1,4 +1,4 @@
-package com.example.jeff.personalbankerwear;
+package main.example.jeff.personalbankerwear;
 
 import android.app.Activity;
 import android.os.Bundle;

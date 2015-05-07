@@ -9,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jeff.personalbanker.R;
+import main.example.jeff.personalbanker.R;
 
-import java.util.Enumeration;
 import java.util.List;
 
 import Entries.Entry;

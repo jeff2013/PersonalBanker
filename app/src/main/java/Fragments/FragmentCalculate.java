@@ -27,20 +27,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.jeff.personalbanker.MainActivity;
-import com.example.jeff.personalbanker.R;
+import main.example.jeff.personalbanker.MainActivity;
+import main.example.jeff.personalbanker.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import Entries.DateC;
-import Entries.Entry;
 import sqlite.SqlDAO;
 
 /**

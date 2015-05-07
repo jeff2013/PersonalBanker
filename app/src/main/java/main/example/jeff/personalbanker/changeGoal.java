@@ -1,4 +1,4 @@
-package com.example.jeff.personalbanker;
+package main.example.jeff.personalbanker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class changeGoal extends ActionBarActivity {

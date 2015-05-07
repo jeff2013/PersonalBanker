@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.jeff.personalbanker.R;
+import main.example.jeff.personalbanker.R;
 
 /**
  * Created by jeff on 2015-01-07.

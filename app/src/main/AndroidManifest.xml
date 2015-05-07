@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jeff.personalbanker" >
+    package="main.example.jeff.personalbanker" >
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="main.example.jeff.personalbanker.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -29,12 +29,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".changeGoal"
+            android:name="main.example.jeff.personalbanker.changeGoal"
             android:label="@string/title_activity_change_goal"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="main.example.jeff.personalbanker.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.jeff.personalbanker.MainActivity" />
+                android:value="main.example.jeff.personalbanker.MainActivity" />
         </activity>
 
 
