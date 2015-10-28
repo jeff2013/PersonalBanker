@@ -6,12 +6,12 @@ package Entries;
 public class Entry {
 
     private String name;
-    private double amount;
+    private int amount;
     private DateC date;
     private int id;
     private String category;
 
-    public Entry(String name, double amount, String type, DateC date){
+    public Entry(String name, int amount, String type, DateC date){
         this.name = name;
         this.amount = amount;
         this.date = date;
@@ -19,9 +19,9 @@ public class Entry {
 
     }
 
-    public Entry(String category, float amount){
+    public Entry(String category, int amount){
         this.category = category;
-        this.amount = (double)amount;
+        this.amount = amount;
     }
 
     public int getId() {
@@ -37,7 +37,7 @@ public class Entry {
     }
 
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 

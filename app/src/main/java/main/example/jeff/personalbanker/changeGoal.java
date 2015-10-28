@@ -16,7 +16,7 @@ public class changeGoal extends ActionBarActivity {
 
     private Button cancel;
     private EditText newGoal;
-    private float goalAmount;
+    private int goalAmount;
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -28,9 +28,9 @@ public class changeGoal extends ActionBarActivity {
             String watcher = s.toString();
 
             if (watcher.length() > 0) {
-                goalAmount = Float.parseFloat(s.toString());
+                goalAmount = Integer.parseInt(s.toString());
             } else {
-                goalAmount = 0.0f;
+                goalAmount = 0;
             }
         }
 
@@ -58,7 +58,7 @@ public class changeGoal extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences preference = changeGoal.this.getSharedPreferences("goal", Context.MODE_PRIVATE);
-                preference.edit().putFloat("goalAmount", goalAmount).apply();
+                preference.edit().putInt("goalAmount", goalAmount).apply();
                 changeGoal.this.finish();
             }
         });

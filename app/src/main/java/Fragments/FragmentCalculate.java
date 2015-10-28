@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,6 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +32,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import main.example.jeff.personalbanker.MainActivity;
+import main.example.jeff.personalbanker.NotificationActivity;
 import main.example.jeff.personalbanker.R;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 import Entries.DateC;
@@ -47,7 +51,7 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
     private EditText dateEditer;
     private String titleText = "";
     private Spinner categoriesSpinner;
-    private double amount = 0.0;
+    private int amount = 0;
     private Calendar cal = Calendar.getInstance();
     private int day = cal.get(Calendar.DATE);
     private int month = cal.get(Calendar.MONTH) + 1;
@@ -112,15 +116,25 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
 
     private TextWatcher amountTextWatcher = new TextWatcher() {
 
+        private String current = "";
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
-            String watcher = s.toString();
-            if(watcher.length() >0){
-                amount = Double.parseDouble(watcher);
-            }else{
-                amount = 0.0;
+
+            if(!s.toString().equals(current)){
+                amountEditer.removeTextChangedListener(this);
+                String cleanString = s.toString().replaceAll("[$,.]", "");
+                if(!cleanString.equals("")) {
+                    Double parsed = Double.parseDouble(cleanString);
+                    String formatted = NumberFormat.getCurrencyInstance().format(parsed / 100);
+                    amount = Integer.parseInt(cleanString);
+                    current = formatted;
+                    amountEditer.setText(formatted);
+                    amountEditer.setSelection(formatted.length());
+                    amountEditer.addTextChangedListener(this);
+                }
             }
+            // TODO Auto-generated method stub
 
         }
 
@@ -134,7 +148,8 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
         @Override
         public void afterTextChanged(Editable s) {
             // TODO Auto-generated method stub
-           // amount = Double.parseDouble(s.toString());
+
+            //amount = removeDecimal(s.toString());
         }
     };
 
@@ -214,13 +229,11 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
         d = new DateC(day,month,year);
 
         sqlDAO.createSpending(titleText, amount, category, day, month, year);
-        float prevVal = sharedPreferences.getFloat(category, 0.0f);
-        editor.putFloat(category, prevVal + (float)amount).commit();
-        editor.putInt("TotalSpendings", sharedPreferences.getInt("TotalSpendings", 0) + (int) amount).apply();
-        float goal = sharedPreferences.getFloat("goalAmount", 0.0f);
-        if(sharedPreferences.getInt("TotalSpendings", 0) >= goal){
-            //buildNotification((int) goal);
-            buildNotificationWear();
+        editor.putInt("TotalSpendings", sharedPreferences.getInt("TotalSpendings", 0) + amount).apply();
+        editor.putInt(category, sharedPreferences.getInt(category, 0) + amount).apply();
+        int goal = sharedPreferences.getInt("goalAmount", 0);
+        if(sharedPreferences.getInt("TotalSpendings", 0)/100 >=goal){
+            buildNotification(goal);
         }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -231,24 +244,21 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
     }
 
     public void buildNotification(int goal){
-        Notification.Builder notification = new Notification.Builder(getActivity())
-                .setSmallIcon(R.drawable.ic_launcher3)
-                .setContentTitle("Spending Goal Reached")
-                .setContentText("You have reached your spending goal of " + goal);
-        Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+       Intent progressIntent = new Intent(getActivity(), NotificationActivity.class);
+       PendingIntent progressPendingIntent  = PendingIntent.getActivity(getActivity(), 0, progressIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        notification.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, notification.build());
+       NotificationCompat.WearableExtender wearFeatures1 = new NotificationCompat.WearableExtender();
+       wearFeatures1.setDisplayIntent(progressPendingIntent);
+
+       Notification notification = new Notification.Builder(getActivity()).setSmallIcon(R.drawable.ic_launcher3)
+               .setContentTitle("Spending Goal Reached")
+               .setContentText("You have exceeded your spending goal of "+ goal)
+               .extend(new Notification.WearableExtender()
+                       .setDisplayIntent(progressPendingIntent)
+                       .setCustomSizePreset(Notification.WearableExtender.SIZE_DEFAULT))
+               .build();
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
 
     }
 
@@ -257,12 +267,32 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
                 getActivity().getResources(),
                 R.drawable.exclamationmark);
 
+
+
+        Intent progressIntent = new Intent(getActivity(), NotificationActivity.class);
+        PendingIntent progressPendingIntent  = PendingIntent.getActivity(getActivity(), 0, progressIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+        NotificationCompat.WearableExtender wearFeatures1 = new NotificationCompat.WearableExtender();
+        wearFeatures1.setDisplayIntent(progressPendingIntent);
+
+        Notification notifPage2 = new NotificationCompat.Builder(getActivity().getApplication())
+                .setSmallIcon(R.drawable.ic_launcher3)
+                .extend(new NotificationCompat.WearableExtender().setDisplayIntent(progressPendingIntent).setCustomSizePreset(Notification.WearableExtender.SIZE_DEFAULT))
+                .build();
+
+
+        NotificationCompat.WearableExtender wearFeatures = new NotificationCompat.WearableExtender();
+        wearFeatures.addPage(notifPage2);
+
         notif = new NotificationCompat.Builder(getActivity().getApplication())
                 .setSmallIcon(R.drawable.ic_launcher3)
                 .setLargeIcon(notificationLargeIconBitmap)
                 .setContentTitle("Spending Goal Reached")
-                .setContentText("You have reached your spending goal!")
-                .extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true));
+                .setContentText("You have reached your spending goal! v3")
+                .extend(new NotificationCompat.WearableExtender().setDisplayIntent(progressPendingIntent).setCustomSizePreset(Notification.WearableExtender.SIZE_DEFAULT));
+                //.extend(new NotificationCompat.WearableExtender().setHintShowBackgroundOnly(true));
 
         Intent resultIntent = new Intent(getActivity(), MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
@@ -287,5 +317,23 @@ public class FragmentCalculate extends Fragment implements View.OnClickListener,
             in.hideSoftInputFromWindow(titleEditer.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("OnPause: ", "Called");
+        hide_keyboard(getActivity());
+        super.onPause();
+    }
+
+    public static void hide_keyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if(view == null) {
+            view = new View(activity);
+        }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -113,21 +113,13 @@ public class FragmentSpendings extends Fragment {
                 //
                 tvAmount.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
                 tvDate.setText(listOfEntries.get(i).getDate().toString());
-                //dateString(listOfEntries.get(i).getDate())
                 tvDate.setTextSize(8);
-                //tr.addView(tvTitle);
-                //tr.addView(tvAmount);
-                //tr.addView(tvDate);
 
-                //LL.addView(tvDate);
                 tr.addView(LL);
                 LL.addView(tvTitle);
                 tr.addView(tvAmount);
                 LL.addView(tvDate);
                 tableLayout.addView(tr);
-                //listOfEntries.get(i).getAmount();
-
-
 
                 tr.setClickable(true);
 

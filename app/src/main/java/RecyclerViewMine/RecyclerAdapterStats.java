@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import main.example.jeff.personalbanker.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import Entries.Entry;
@@ -25,13 +26,6 @@ public class RecyclerAdapterStats extends RecyclerView.Adapter<RecyclerAdapterSt
     private LayoutInflater inflater;
     private List<Entry> entries;
     private Context c;
-    private int foodAmount;
-    private int otherAmount;
-    private int electronicsAmount;
-    private int clothingAmount;
-    private enum Categories{
-        Other, Food, Electronics, Gasoline, Clothing, Vehicular, Housing, Tuition
-    }
     private SharedPreferences sharedPreferences;
 
     public RecyclerAdapterStats(Context context, SqlDAO data){
@@ -78,19 +72,7 @@ public class RecyclerAdapterStats extends RecyclerView.Adapter<RecyclerAdapterSt
         }
         holder.title.setText(category);
         holder.icon.setImageDrawable(c.getResources().getDrawable(icon));
-        //Toast.makeText(c, "Holder percentage " + Integer.toString(sharedPreferences.getInt(category, 0)), Toast.LENGTH_SHORT).show();
-        holder.percentage.setText("$" + Float.toString(sharedPreferences.getFloat(category, 0.0f)));
-        /*
-        SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                switch(Categories.valueOf(key)){
-                    case Food:
-                }
-                prefs.getInt(key, 0);
-            }
-        };
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
-        */
+        holder.percentage.setText(currencyString(sharedPreferences.getInt(category, 0)));
     }
 
     @Override
@@ -116,4 +98,11 @@ public class RecyclerAdapterStats extends RecyclerView.Adapter<RecyclerAdapterSt
         public void onClick(View v) {
         }
     }
+
+    private String currencyString(int num){
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format((double)num/100);
+    }
+
+
 }

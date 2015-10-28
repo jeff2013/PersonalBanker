@@ -33,7 +33,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     //oncreate is called when the database is created for the first time. Creation of table and initial data inside the tables should  be put here
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        db.execSQL("CREATE TABLE SpendingsTable (_id INTEGER PRIMARY KEY AUTOINCREMENT, Title VARCHAR(255), Amount FLOAT, Category VARCHAR(255), Day INTEGER, Month INTEGER, Year INTEGER);");
+        db.execSQL("CREATE TABLE SpendingsTable (_id INTEGER PRIMARY KEY AUTOINCREMENT, Title VARCHAR(255), Amount INTEGER, Category VARCHAR(255), Day INTEGER, Month INTEGER, Year INTEGER);");
 
     }
 

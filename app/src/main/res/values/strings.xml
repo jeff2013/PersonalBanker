@@ -12,7 +12,7 @@
         <item>Tuition</item>
     </string-array>
 
-    <string name="app_name">PersonalBanker</string>
+    <string name="app_name">Personal Banker</string>
     <string name="title_section1">Entry</string>
     <string name="title_section2">Spendings</string>
     <string name="title_section3">Settings</string>
@@ -29,5 +29,6 @@
     <string name="Cancel">Cancel</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_goal_progress">GoalProgress</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 
 </resources>

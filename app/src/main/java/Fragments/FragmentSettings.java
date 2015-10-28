@@ -88,7 +88,7 @@ public class FragmentSettings extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal", Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.putFloat("goalAmount", 100.0f);
+        editor.putInt("goalAmount", 100);
         editor.apply();
     }
 

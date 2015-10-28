@@ -46,7 +46,7 @@ public class FragmentSpendingsListView extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 entryAdapter = new EntryAdapter(getActivity(), getDatabase());
                 Entry e = (Entry) entryAdapter.getItem(position-1);
-                Double d = e.getAmount();
+                Integer d = e.getAmount();
                 Toast.makeText(getActivity(), d.toString(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity(), getTotalSpendings().toString(), Toast.LENGTH_SHORT).show();
                 sqldao.delete(e.getId());

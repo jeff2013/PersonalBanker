@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import main.example.jeff.personalbanker.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class SettingsAdapter extends BaseAdapter{
             case 0: convertView = layoutInflater.inflate(R.layout.settingslistview_goal, parent, false);
                 TextView goalTextView = (TextView)convertView.findViewById(R.id.goalAmount);
                 SharedPreferences preferences = context.getSharedPreferences("goal", Context.MODE_PRIVATE);
-                if(!preferences.contains("goalAmount")) preferences.edit().putFloat("goalAmount", 104.1f).apply();
-                goalTextView.setText(Float.toString(preferences.getFloat("goalAmount", 105.0f)));
+                if(!preferences.contains("goalAmount")) preferences.edit().putInt("goalAmount", 100).apply();
+                goalTextView.setText(currencyString(preferences.getInt("goalAmount", 100)*100));
                 break;
             case 1: convertView = layoutInflater.inflate(R.layout.settingslistview_reset, parent, false);
                 break;
@@ -65,4 +66,10 @@ public class SettingsAdapter extends BaseAdapter{
         }
         return convertView;
     }
+
+    private String currencyString(int num){
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format((double)num/100);
+    }
+
 }

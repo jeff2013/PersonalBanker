@@ -40,7 +40,10 @@
         android:inputType="numberDecimal"
         android:layout_alignBaseline="@+id/amount"
         android:layout_alignBottom="@+id/amount"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textDirection="rtl"
+        android:gravity="right"
+        android:hint="$0.00" />
 
     <TextView
         android:id="@+id/title"
@@ -73,10 +76,10 @@
         android:id="@+id/add_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:text="Add Entry"
+        android:layout_below="@+id/date_entry"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:text="Add Entry" />
+        android:layout_marginTop="55dp" />
 
     <Spinner
         android:layout_width="wrap_content"

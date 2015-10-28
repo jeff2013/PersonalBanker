@@ -17,5 +17,7 @@
     <color name="coral_blue">#1DAEFA</color>
     <color name="dark_blue">#125D9D</color>
     <color name="light_gray">#ABBAC2</color>
+    <color name="hangout_green">#00933B</color>
+    <color name="red_peek">#DD2C00</color>
 
 </resources>

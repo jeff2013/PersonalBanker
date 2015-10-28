@@ -27,7 +27,7 @@ public class SqlDAO {
         sqliteDatabase.close();
     }
 
-    public void createSpending(String title, double amount, String category, int day, int month, int year) {
+    public void createSpending(String title, int amount, String category, int day, int month, int year) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Title", title);
         contentValues.put("Amount", amount);
@@ -74,7 +74,7 @@ public class SqlDAO {
             int monthIndex = cursor.getColumnIndex("Month");
             int yearIndex = cursor.getColumnIndex("Year");
             DateC date = new DateC(cursor.getInt(dayIndex), cursor.getInt(monthIndex), cursor.getInt(yearIndex));
-            Entry entry = new Entry(cursor.getString(nameIndex), cursor.getDouble(amountIndex), cursor.getString(categoryIndex), date);
+            Entry entry = new Entry(cursor.getString(nameIndex), cursor.getInt(amountIndex), cursor.getString(categoryIndex), date);
             entry.setId(cursor.getInt(0));
 
             listOfEntries.add(entry);

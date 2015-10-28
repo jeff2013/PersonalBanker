@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity
         SharedPreferences preference = getSharedPreferences("goal", Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = preference.edit();
         if(!preference.contains("goalAmount")){
-            editor.putFloat("goalAmount", 100.0f);
+            editor.putInt("goalAmount", 100);
             editor.apply();
         }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -74,7 +74,6 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section1);
                 break;
             case 1:
-                //newfragment = new FragmentSpendingsListView();
                 newfragment = new spendingsRecyclerView();
                 transaction.replace(R.id.container, newfragment);
                 transaction.addToBackStack(null);

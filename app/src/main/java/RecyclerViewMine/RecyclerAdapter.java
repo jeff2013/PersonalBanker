@@ -1,9 +1,12 @@
 package RecyclerViewMine;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import main.example.jeff.personalbanker.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import Entries.Entry;
@@ -55,7 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
         Entry entryData = entries.get(position);
         String entryCategory = entryData.getCategory();
         holder.title.setText(entryData.getName());
-        holder.amount.setText(Double.toString(entryData.getAmount()));
+        holder.amount.setText(currencyString(entryData.getAmount()));
         holder.date.setText(entryData.getDate().toStringProper());
         Drawable icon = c.getResources().getDrawable(R.drawable.o);
         holder.icon.setImageDrawable(icon);
@@ -108,29 +112,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
             icon = c.getResources().getDrawable(R.drawable.o);
             holder.icon.setImageDrawable(icon);
         }
-        //editor.putInt(entryCategory, sharedPreferences.getInt(entryCategory, 0) + ((int) entryData.getAmount()));
-        //editor.apply();
-
     }
 
     public void delete(int position){
-        if(entries.size() == 0) return;
-        notifyItemRemoved(position);
+        if(entries.size() == 0 || entries.get(position) == null) return;
         Entry entryDelete = entries.get(position);
         String entryDeleteCategory = entryDelete.getCategory();
-        //Toast.makeText(c, "before delete " + entryDeleteCategory + sharedPreferences.getInt(entryDeleteCategory, 0), Toast.LENGTH_SHORT).show();
-        editor.putFloat(entryDeleteCategory, (float)(sharedPreferences.getFloat(entryDeleteCategory, 0.0f) - entryDelete.getAmount()));
+        editor.putInt(entryDeleteCategory, sharedPreferences.getInt(entryDeleteCategory, 0) - entryDelete.getAmount());
         editor.apply();
-        editor.putInt("TotalSpendings", (int) (sharedPreferences.getInt("TotalSpendings", 0) - entryDelete.getAmount()));
+        editor.putInt("TotalSpendings", sharedPreferences.getInt("TotalSpendings", 0) - entryDelete.getAmount());
         editor.apply();
-        //Toast.makeText(c, "after delete " + entryDeleteCategory + sharedPreferences.getInt(entryDeleteCategory, 0), Toast.LENGTH_SHORT).show();
         sqlDAO.delete(entryDelete.getId());
-        entries = sqlDAO.getEntries();
+        entries.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
     public int getItemCount() {
         return entries.size();
+    }
+    private String currencyString(int num){
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format((double) num / 100);
     }
 
     class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -150,7 +153,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.myView
 
         @Override
         public void onClick(View v) {
-            delete(getPosition());
+            AlertDialog.Builder builder = new AlertDialog.Builder(c);
+            builder.setMessage("Delete Spending?")
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            delete(getPosition());
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            builder.create().show();
         }
     }
 }
